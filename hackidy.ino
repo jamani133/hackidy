@@ -28,60 +28,147 @@ void setup() {
   pinMode(LED_BUILTIN,OUTPUT);
 }
 
+//[[
+// [F1-24]
+//  [CTRL]
+//  [SHIFT]
+//  [ALT]
+//  [ENTER]
+//  [WIN]
+// [TAB]
+// [CAPS]
+// [DEL]
+// [INSERT]
+// [ESC]
+// [DELAY0-99999999]
+
+
+boolean ParseText(String input){
+  int index = 0;
+  int cmdIndex = 0;
+  boolean cmd = false;
+
+  while(input.substring(index,index) != null){
+    String currentChar = char(input.substring(index,index));
+    if(currentChar.equals("[")&&!cmd){
+      cmd = true; // start reding command
+      index++;
+    
+    }else if(currentChar.equals("]")){
+      cmd = false;//end cmd
+      KBRelease();
+      index++;
+    }else if(cmd){
+                  //read cmd and no num
+      boolean searching = true;
+      cmdIndex = index;
+      int wdt = 0;
+      while(searching){
+        if(wdt > 2000){
+          return false;
+        }
+        wdt++;
+        String cmdParser = input.substring(index,cmdIndex); //get curret command part
+        boolean nextNum = input.subString(cmdIndex+1,cmdIndex+1).isDigit(); //see if next is number
+        done = true;
+        if(nextNum){
+          if(cmdParser.equals("F")){
+            val = parseNumber(input,cmdIndex+1,index);
+
+            //f keys
+          }else if(cmdParser.equals("DELAY")){
+            val = parseNumber(input,cmdIndex+1,index);
+            delay(val);
+            SerialBT.println("sleeping "+String(val)+" ms");
+            //delay
+          }else{
+            done = false;
+          }
+        }else{
+          if(cmdParser.equals("ENTER")){
+            
+            KBPress(KEY_KP_ENTER);
+          }else if(cmdParser.equals("WIN")){
+            
+            KBPress(KEY_LEFT_GUI);
+          }else if(cmdParser.equals("ALT")){
+            
+            KBPress(KEY_LEFT_ALT);
+          }else if(cmdParser.equals("SHIFT")){
+       
+            KBPress(KEY_LEFT_SHIFT);
+          }else if(cmdParser.equals("CTRL")){
+            
+            KBPress(KEY_LEFT_CTRL);
+          }else if(cmdParser.equals("TAB")){
+           
+            KBPress(KEY_TAB);
+          }else if(cmdParser.equals("CAPS")){
+           
+            KBPress(KEY_CAPS_LOCK);
+          }else if(cmdParser.equals("DEL")){
+         
+            KBPress(KEY_DELETE);
+          }else if(cmdParser.equals("INSERT")){
+           
+            KBPress(KEY_INSERT);
+          }else if(cmdParser.equals("ESC")){
+           
+            KBPress(KEY_ESC);
+          }else if(cmdParser.equals("[")){
+            Keyboard.write("[");
+          }else{
+            done=false;
+          }
+        }
+        if(done){
+          searching = false;
+        }
+      }
+      index = cmdIndex+1;
+      cmd = false;
+    }else{
+      Keyboard.write(currentChar); //write character
+      index++;
+    }
+  }
+  return true;
+}
+
+void KBPress(int keyToPress){
+  Keyboard.press(keyToPress);
+}
+
+void KBRelease(){
+  Keyboard.releaseAll();
+}
+
+int parseNumber(String inString, int startPos, int& newIndex){
+  int digits = 0;
+  while(true){
+    if(digits > 32){
+      SerialBT.println("number too long");
+      return 0;
+    }
+    if(!inString.substring(startPos,startPos+digits).isDigit()){
+      newIndex = startPos+digits;
+      if(digits == 0){
+        SerialBT.println("not a number");
+        return 1;
+      }
+      return toInt(inString.substring(startPos,startPos+digits-1));
+    }
+    digits++;
+  } 
+}
+
 
 
 
 void loop() {
-
   while (SerialBT) {
-    digitalWrite(LED_BUILTIN,SerialBT.available()||Serial.available());
-    delay(100);
-    if(SerialBT.available()){
-      
-      String input = SerialBT.readString()+"°°°";
-      SerialBT.println("1: "+split(input,'°',0));
-      SerialBT.println("2: "+split(input,'°',1));
-      SerialBT.println("3: "+split(input,'°',2));
-      
-      if(split(input,'°',0).equals("cmd")){
-        SerialBT.println("executing  "+split(input,'°',1)+"  in cmd");
-        Keyboard.press(KEY_LEFT_GUI);
-        Keyboard.write('r');
-        Keyboard.releaseAll();
-        delay(50);
-        Keyboard.print("cmd /c"+split(input,'°',1));
-        delay(10);
-        Keyboard.press(KEY_KP_ENTER);
-        delay(10);
-        Keyboard.releaseAll();
-        SerialBT.println("done");
-      }
-      else if(split(input,'°',0).equals("key")){
-        SerialBT.println("writing  "+split(input,'°',1));
-        Keyboard.print(split(input,'°',1));
-        if(split(input,'°',2) == "enter"){
-          Keyboard.press(KEY_KP_ENTER);
-          delay(10);
-          SerialBT.println("entered enter key to enter");
-        }
-        Keyboard.releaseAll();
-        SerialBT.println("done");
-      }
-      else if(split(input,'°',0).equals("winr")){
-        SerialBT.println("executing  "+split(input,'°',1)+"  in win+r");
-        Keyboard.press(KEY_LEFT_GUI);
-        Keyboard.write('r');
-        Keyboard.releaseAll();
-        delay(50);
-        Keyboard.print(split(input,'°',1));
-        delay(10);
-        Keyboard.press(KEY_KP_ENTER);
-        delay(10);
-        Keyboard.releaseAll();
-        SerialBT.println("done");
-      }else{
-        SerialBT.println("not a valid command");
-      }
+    if(SerialBT.available()){ 
+       ParseText(SerialBT.readString());
     }
   }
 }
