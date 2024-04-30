@@ -40,23 +40,28 @@ void setup() {
 // [DEL]
 // [INSERT]
 // [ESC]
-// [DELAY0-99999999]
+// [SLEEP0-99999999]
 
 
 boolean ParseText(String input){
   int index = 0;
   int cmdIndex = 0;
   boolean cmd = false;
-
-  while(input.substring(index,index) != null){
-    String currentChar = char(input.substring(index,index));
+  int len = input.length();
+  SerialBT.println(input);
+  //SerialBT.print(len);
+  while(index < len){
+    String currentChar = String(input.charAt(index));
+    //SerialBT.print(currentChar);
     if(currentChar.equals("[")&&!cmd){
       cmd = true; // start reding command
       index++;
     
     }else if(currentChar.equals("]")){
       cmd = false;//end cmd
-      KBRelease();
+      //KBRelease();
+      Keyboard.releaseAll();
+      //SerialBT.println("releasing all");
       index++;
     }else if(cmd){
                   //read cmd and no num
@@ -65,20 +70,24 @@ boolean ParseText(String input){
       int wdt = 0;
       while(searching){
         if(wdt > 2000){
+          //SerialBT.println("cmd parser timed out");
           return false;
         }
         wdt++;
         String cmdParser = input.substring(index,cmdIndex); //get curret command part
-        boolean nextNum = input.subString(cmdIndex+1,cmdIndex+1).isDigit(); //see if next is number
-        done = true;
+        //SerialBT.println("checking "+cmdParser);
+        boolean nextNum = isDigit(input.charAt(cmdIndex+1)); //see if next is number
+        boolean done = true;
         if(nextNum){
           if(cmdParser.equals("F")){
-            val = parseNumber(input,cmdIndex+1,index);
-
+            int val = parseNumber(input,cmdIndex,index);
+            SerialBT.println("F"+String(val));
             //f keys
-          }else if(cmdParser.equals("DELAY")){
-            val = parseNumber(input,cmdIndex+1,index);
+          }else if(cmdParser.equals("SLEEP")){
+            int val = parseNumber(input,cmdIndex,index);
+            cmdIndex += String(val).length();
             delay(val);
+            
             SerialBT.println("sleeping "+String(val)+" ms");
             //delay
           }else{
@@ -116,19 +125,20 @@ boolean ParseText(String input){
            
             KBPress(KEY_ESC);
           }else if(cmdParser.equals("[")){
-            Keyboard.write("[");
+            Keyboard.write('[');
           }else{
             done=false;
           }
         }
+        cmdIndex++;
         if(done){
           searching = false;
         }
       }
-      index = cmdIndex+1;
+      index = cmdIndex-1;
       cmd = false;
     }else{
-      Keyboard.write(currentChar); //write character
+      Keyboard.print(currentChar); //write character
       index++;
     }
   }
@@ -144,19 +154,19 @@ void KBRelease(){
 }
 
 int parseNumber(String inString, int startPos, int& newIndex){
-  int digits = 0;
+  int digits = -1;
   while(true){
     if(digits > 32){
       SerialBT.println("number too long");
       return 0;
     }
-    if(!inString.substring(startPos,startPos+digits).isDigit()){
-      newIndex = startPos+digits;
-      if(digits == 0){
+    if(!isDigit(inString.charAt(startPos+digits+1))){
+      //newIndex = newIndex+digits+1;
+      if(digits == -1){
         SerialBT.println("not a number");
         return 1;
       }
-      return toInt(inString.substring(startPos,startPos+digits-1));
+      return inString.substring(startPos,startPos+digits+1).toInt();
     }
     digits++;
   } 
@@ -167,8 +177,17 @@ int parseNumber(String inString, int startPos, int& newIndex){
 
 void loop() {
   while (SerialBT) {
-    if(SerialBT.available()){ 
-       ParseText(SerialBT.readString());
+    if(SerialBT.available()){
+       String BTInput = "";
+       int timeout = 0;
+       while(timeout < 100000){
+        if(SerialBT.available()){
+          BTInput = BTInput+char(SerialBT.read());
+          timeout = 0;
+        }
+        timeout++;
+       }
+       ParseText(BTInput.substring(0,BTInput.length()-2));
     }
   }
 }
