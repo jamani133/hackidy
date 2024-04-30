@@ -21,11 +21,15 @@
 
 #include <SerialBT.h>
 
+#include "Keyboard.h"
 void setup() {
   SerialBT.begin();//"olaf.maydell remote shell"
-  
+  Keyboard.begin(KeyboardLayout_de_DE);
   pinMode(LED_BUILTIN,OUTPUT);
 }
+
+
+
 
 void loop() {
 
@@ -34,7 +38,67 @@ void loop() {
     delay(100);
     if(SerialBT.available()){
       
-      String input = SerialBT.readString();
+      String input = SerialBT.readString()+"°°°";
+      SerialBT.println("1: "+split(input,'°',0));
+      SerialBT.println("2: "+split(input,'°',1));
+      SerialBT.println("3: "+split(input,'°',2));
+      
+      if(split(input,'°',0).equals("cmd")){
+        SerialBT.println("executing  "+split(input,'°',1)+"  in cmd");
+        Keyboard.press(KEY_LEFT_GUI);
+        Keyboard.write('r');
+        Keyboard.releaseAll();
+        delay(50);
+        Keyboard.print("cmd /c"+split(input,'°',1));
+        delay(10);
+        Keyboard.press(KEY_KP_ENTER);
+        delay(10);
+        Keyboard.releaseAll();
+        SerialBT.println("done");
+      }
+      else if(split(input,'°',0).equals("key")){
+        SerialBT.println("writing  "+split(input,'°',1));
+        Keyboard.print(split(input,'°',1));
+        if(split(input,'°',2) == "enter"){
+          Keyboard.press(KEY_KP_ENTER);
+          delay(10);
+          SerialBT.println("entered enter key to enter");
+        }
+        Keyboard.releaseAll();
+        SerialBT.println("done");
+      }
+      else if(split(input,'°',0).equals("winr")){
+        SerialBT.println("executing  "+split(input,'°',1)+"  in win+r");
+        Keyboard.press(KEY_LEFT_GUI);
+        Keyboard.write('r');
+        Keyboard.releaseAll();
+        delay(50);
+        Keyboard.print(split(input,'°',1));
+        delay(10);
+        Keyboard.press(KEY_KP_ENTER);
+        delay(10);
+        Keyboard.releaseAll();
+        SerialBT.println("done");
+      }else{
+        SerialBT.println("not a valid command");
+      }
     }
   }
 }
+
+
+String split(String s, char parser, int index) {        //I STOLE THIS CODE
+  String rs="";                                         //I STOLE THIS CODE
+  int parserIndex = index;                              //I STOLE THIS CODE
+  int parserCnt=0;                                      //I STOLE THIS CODE
+  int rFromIndex=0, rToIndex=-1;                        //I STOLE THIS CODE
+  while (index >= parserCnt) {                          //I STOLE THIS CODE
+    rFromIndex = rToIndex+1;                            //I STOLE THIS CODE
+    rToIndex = s.indexOf(parser,rFromIndex);            //I STOLE THIS CODE
+    if (index == parserCnt) {                           //I STOLE THIS CODE
+      if (rToIndex == 0 || rToIndex == -1) return "";   //I STOLE THIS CODE
+      return s.substring(rFromIndex,rToIndex-1);        //I STOLE THIS CODE
+    } else parserCnt++;                                 //I STOLE THIS CODE
+  }                                                     //I STOLE THIS CODE
+  return rs;                                            //I STOLE THIS CODE
+}                                                       //I STOLE THIS CODE
