@@ -1,0 +1,13 @@
+[[
+[F1-24]
+[CTRL]
+[SHIFT]
+[ALT]
+[ENTER]
+[WIN]
+[TAB]
+[CAPS]
+[DEL]
+[INSERT]
+[ESC]
+[SLEEP0-99999999]

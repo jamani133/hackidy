@@ -3,7 +3,7 @@
     "configurations": [
         {
             "name": "Arduino",
-            "compilerPath": "C:\\Users\\Jakob\\AppData\\Local\\Arduino15\\packages\\rp2040\\tools\\pqt-gcc\\2.2.0-d04e724\\bin\\arm-none-eabi-g++",
+            "compilerPath": "C:\\Users\\jakob\\AppData\\Local\\Arduino15\\packages\\rp2040\\tools\\pqt-gcc\\2.2.0-d04e724\\bin\\arm-none-eabi-g++",
             "compilerArgs": [
                 "-I",
                 "-Werror=return-type",
@@ -17,12 +17,12 @@
             ],
             "intelliSenseMode": "gcc-x64",
             "includePath": [
-                "C:\\Users\\Jakob\\AppData\\Local\\Arduino15\\packages\\rp2040\\hardware\\rp2040\\3.8.0\\include",
-                "C:\\Users\\Jakob\\AppData\\Local\\Arduino15\\packages\\rp2040\\hardware\\rp2040\\3.8.0\\cores\\rp2040",
-                "C:\\Users\\Jakob\\AppData\\Local\\Arduino15\\packages\\rp2040\\hardware\\rp2040\\3.8.0\\variants\\rpipicow",
-                "C:\\Users\\Jakob\\AppData\\Local\\Arduino15\\packages\\rp2040\\hardware\\rp2040\\3.8.0\\libraries\\SerialBT\\src",
-                "C:\\Users\\Jakob\\AppData\\Local\\Arduino15\\packages\\rp2040\\hardware\\rp2040\\3.8.0\\libraries\\Keyboard\\src",
-                "C:\\Users\\Jakob\\AppData\\Local\\Arduino15\\packages\\rp2040\\hardware\\rp2040\\3.8.0\\libraries\\HID_Keyboard\\src",
+                "C:\\Users\\jakob\\AppData\\Local\\Arduino15\\packages\\rp2040\\hardware\\rp2040\\3.8.0\\include",
+                "C:\\Users\\jakob\\AppData\\Local\\Arduino15\\packages\\rp2040\\hardware\\rp2040\\3.8.0\\cores\\rp2040",
+                "C:\\Users\\jakob\\AppData\\Local\\Arduino15\\packages\\rp2040\\hardware\\rp2040\\3.8.0\\variants\\rpipicow",
+                "C:\\Users\\jakob\\AppData\\Local\\Arduino15\\packages\\rp2040\\hardware\\rp2040\\3.8.0\\libraries\\SerialBT\\src",
+                "C:\\Users\\jakob\\AppData\\Local\\Arduino15\\packages\\rp2040\\hardware\\rp2040\\3.8.0\\libraries\\Keyboard\\src",
+                "C:\\Users\\jakob\\AppData\\Local\\Arduino15\\packages\\rp2040\\hardware\\rp2040\\3.8.0\\libraries\\HID_Keyboard\\src",
                 "c:\\users\\jakob\\appdata\\local\\arduino15\\packages\\rp2040\\tools\\pqt-gcc\\2.2.0-d04e724\\arm-none-eabi\\include\\c++\\12.3.0",
                 "c:\\users\\jakob\\appdata\\local\\arduino15\\packages\\rp2040\\tools\\pqt-gcc\\2.2.0-d04e724\\arm-none-eabi\\include\\c++\\12.3.0\\arm-none-eabi\\thumb",
                 "c:\\users\\jakob\\appdata\\local\\arduino15\\packages\\rp2040\\tools\\pqt-gcc\\2.2.0-d04e724\\arm-none-eabi\\include\\c++\\12.3.0\\backward",
@@ -31,7 +31,7 @@
                 "c:\\users\\jakob\\appdata\\local\\arduino15\\packages\\rp2040\\tools\\pqt-gcc\\2.2.0-d04e724\\arm-none-eabi\\include"
             ],
             "forcedInclude": [
-                "C:\\Users\\Jakob\\AppData\\Local\\Arduino15\\packages\\rp2040\\hardware\\rp2040\\3.8.0\\cores\\rp2040\\Arduino.h"
+                "C:\\Users\\jakob\\AppData\\Local\\Arduino15\\packages\\rp2040\\hardware\\rp2040\\3.8.0\\cores\\rp2040\\Arduino.h"
             ],
             "cStandard": "c11",
             "cppStandard": "c++17",

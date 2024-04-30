@@ -28,13 +28,13 @@ void setup() {
   pinMode(LED_BUILTIN,OUTPUT);
 }
 
-//[[
+// [[
 // [F1-24]
-//  [CTRL]
-//  [SHIFT]
-//  [ALT]
-//  [ENTER]
-//  [WIN]
+// [CTRL]
+// [SHIFT]
+// [ALT]
+// [ENTER]
+// [WIN]
 // [TAB]
 // [CAPS]
 // [DEL]
@@ -192,19 +192,3 @@ void loop() {
   }
 }
 
-
-String split(String s, char parser, int index) {        //I STOLE THIS CODE
-  String rs="";                                         //I STOLE THIS CODE
-  int parserIndex = index;                              //I STOLE THIS CODE
-  int parserCnt=0;                                      //I STOLE THIS CODE
-  int rFromIndex=0, rToIndex=-1;                        //I STOLE THIS CODE
-  while (index >= parserCnt) {                          //I STOLE THIS CODE
-    rFromIndex = rToIndex+1;                            //I STOLE THIS CODE
-    rToIndex = s.indexOf(parser,rFromIndex);            //I STOLE THIS CODE
-    if (index == parserCnt) {                           //I STOLE THIS CODE
-      if (rToIndex == 0 || rToIndex == -1) return "";   //I STOLE THIS CODE
-      return s.substring(rFromIndex,rToIndex-1);        //I STOLE THIS CODE
-    } else parserCnt++;                                 //I STOLE THIS CODE
-  }                                                     //I STOLE THIS CODE
-  return rs;                                            //I STOLE THIS CODE
-}                                                       //I STOLE THIS CODE
