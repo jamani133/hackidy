@@ -19,6 +19,7 @@
 // 3. Connect to this device with your favorite terminal application.
 
 
+
 #include <SerialBT.h>
 
 #include "Keyboard.h"
@@ -191,4 +192,3 @@ void loop() {
     }
   }
 }
-
