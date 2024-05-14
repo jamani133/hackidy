@@ -1,0 +1,11 @@
+download the goose
+wget https://github.com/jamani133/hackidy/raw/main/CompactGoose.zip -outfile appdata/local/goose.zip
+
+install the goose
+Expand-Archive -Path appdata/local/goose.zip -DestinationPath appdata/local/goose
+
+start a goose
+appdata/local/goose/GooseDesktop.exe
+
+kill gooses
+taskkill /f /im goosedesktop.exe
