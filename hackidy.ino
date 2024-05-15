@@ -84,6 +84,44 @@ boolean ParseText(String input){
             int val = parseNumber(input,cmdIndex,index);
             SerialBT.println("F"+String(val));
             //f keys
+            switch(val){
+              case 1:
+                KBPress(KEY_F1);
+              break;
+              case 2:
+                KBPress(KEY_F2);
+              break;
+              case 3:
+                KBPress(KEY_F3);
+              break;
+              case 4:
+                KBPress(KEY_F4);
+              break;
+              case 5:
+                KBPress(KEY_F5);
+              break;
+              case 6:
+                KBPress(KEY_F6);
+              break;
+              case 7:
+                KBPress(KEY_F7);
+              break;
+              case 8:
+                KBPress(KEY_F8);
+              break;
+              case 9:
+                KBPress(KEY_F9);
+              break;
+              case 10:
+                KBPress(KEY_F10);
+              break;
+              case 11:
+                KBPress(KEY_F11);
+              break;
+              case 12:
+                KBPress(KEY_F12);
+              break;
+            }
           }else if(cmdParser.equals("SLEEP")){
             int val = parseNumber(input,cmdIndex,index);
             cmdIndex += String(val).length();
