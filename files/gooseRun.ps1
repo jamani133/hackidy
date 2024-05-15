@@ -1,0 +1,1 @@
+start $env:LOCALAPPDATA/goose/GooseDesktop.exe
